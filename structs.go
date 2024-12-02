@@ -26,9 +26,9 @@ func (m typeMap) Merge(other typeMap) typeMap {
 	for k, v := range other {
 		m[k] = v
 	}
-	hasNull := len(m["null"]) > 0
+	hasNull := len(m[typeUnknown]) > 0
 	if hasNull && len(m) > 1 {
-		delete(m, "null")
+		delete(m, typeUnknown)
 	}
 	if len(m[typeNumberFloat]) > 0 || len(other[typeNumberFloat]) > 0 {
 		delete(m, typeNumberInt)
@@ -87,7 +87,7 @@ func parse(prefix string, val *fastjson.Value, out map[string]typeMap, categoriz
 	if val.Type() == fastjson.TypeArray {
 		arr, _ := val.Array()
 		for _, v := range arr {
-			parse(prefix+"[]", v, out, categorizeNumeric)
+			parse(prefix+".[]", v, out, categorizeNumeric)
 		}
 	}
 }
