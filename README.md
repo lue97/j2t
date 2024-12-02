@@ -42,3 +42,6 @@ Supports multi-type arrays
 []    string     "two"
 []    number 1
 ```
+# Packages
+- https://github.com/akamensky/argparse
+- https://github.com/valyala/fastjson
