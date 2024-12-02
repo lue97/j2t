@@ -1,4 +1,4 @@
-module llue/j2t
+module lue97/j2t
 
 go 1.22
 
