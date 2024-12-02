@@ -13,7 +13,7 @@ Arguments:
   -h  --help     Print help information
   -o  --output   Sets the output file. Reads from STDIN by default
   -i  --input    Sets the input file. Writes to STDOUT by default
-  -f  --format   Output format.. Default: list
+  -f  --format   Output format. Default: list
   -P  --prefix   Field prefix
   -H  --headers  If headers should be printed
   -m  --merge    Merges type and content for fields with multiple types

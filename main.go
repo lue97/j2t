@@ -27,7 +27,7 @@ func main() {
 	parser := argparse.NewParser("j2t", "A simple utility to extract a structure from JSON")
 	outputFile := parser.String("o", "output", &argparse.Options{Help: "Sets the output file. Reads from STDIN by default"})
 	inputFile := parser.String("i", "input", &argparse.Options{Help: "Sets the input file. Writes to STDOUT by default"})
-	format := parser.Selector("f", "format", []string{formatList, formatJson, formatCsv}, &argparse.Options{Help: "Output format.", Default: "list"})
+	format := parser.Selector("f", "format", []string{formatList, formatJson, formatCsv}, &argparse.Options{Help: "Output format", Default: "list"})
 	prefix := parser.String("P", "prefix", &argparse.Options{Help: "Field prefix"})
 	requireHeader := parser.Flag("H", "headers", &argparse.Options{Help: "If headers should be printed"})
 	merge := parser.Flag("m", "merge", &argparse.Options{Help: "Merges type and content for fields with multiple types"})
