@@ -1,5 +1,5 @@
 # j2t
-A simple utility to extract a structure from JSON.
+A simple utility to extract a structure from JSON. Made this to list all fields in a JSON string for further processing in `jq`
 # Usage
 ```text
 usage: j2t [-h|--help] [-o|--output "<value>"] [-i|--input "<value>"]
