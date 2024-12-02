@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"encoding/csv"
-	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -30,7 +29,6 @@ func main() {
 	inputFile := parser.String("i", "input", &argparse.Options{Help: "Sets the input file. Writes to STDOUT by default"})
 	format := parser.Selector("f", "format", []string{formatList, formatJson, formatCsv}, &argparse.Options{Help: "Output format", Default: "list"})
 	prefix := parser.String("P", "prefix", &argparse.Options{Help: "Field prefix"})
-	prettyPrint := parser.Flag("p", "pretty-print", &argparse.Options{Help: "Pretty print. Only applicable for `json` format"})
 	requireHeader := parser.Flag("H", "headers", &argparse.Options{Help: "If headers should be printed. Only applicable for `list` and `csv` format"})
 	merge := parser.Flag("m", "merge", &argparse.Options{Help: "Merges type and content for fields with multiple types. Only applicable for `list` and `csv` format"})
 	categorizeNumeric := parser.Flag("n", "numeric", &argparse.Options{Help: "Categorize `number` into `number_int` and `number_float`"})
@@ -77,8 +75,6 @@ func main() {
 	switch *format {
 	case "list":
 		err = writeList(writer, sortedKeys, m, *merge, *requireHeader)
-	case "json":
-		err = writeJson(writer, sortedKeys, m, *prettyPrint)
 	case "csv":
 		err = writeCsv(writer, sortedKeys, m, *merge, *requireHeader)
 	}
@@ -144,28 +140,6 @@ func writeCsv(w io.Writer, sortedKeys []string, maps map[string]typeMap, merge, 
 	}
 	writer.Flush()
 	return nil
-}
-
-func writeJson(w io.Writer, sortedKeys []string, maps map[string]typeMap, prettyPrint bool) error {
-	content := make([]map[string]any, 0, len(maps))
-	for _, field := range sortedKeys {
-		typeContents := make([]map[string]string, 0, len(maps[field]))
-		for t, c := range maps[field] {
-			typeContents = append(typeContents, map[string]string{
-				headerType:    t,
-				headerContent: c,
-			})
-		}
-		content = append(content, map[string]any{
-			"types":     typeContents,
-			headerField: field,
-		})
-	}
-	enc := json.NewEncoder(w)
-	if prettyPrint {
-		enc.SetIndent("", "    ")
-	}
-	return enc.Encode(content)
 }
 
 func writeList(w io.Writer, sortedFields []string, maps map[string]typeMap, merge, requireHeaders bool) error {
