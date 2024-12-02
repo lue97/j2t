@@ -24,7 +24,7 @@ const (
 )
 
 func main() {
-	parser := argparse.NewParser("j2t", "Lists the fields in a JSON string")
+	parser := argparse.NewParser("j2t", "A simple utility to extract a structure from JSON")
 	outputFile := parser.String("o", "output", &argparse.Options{Help: "Sets the output file. Reads from STDIN by default"})
 	inputFile := parser.String("i", "input", &argparse.Options{Help: "Sets the input file. Writes to STDOUT by default"})
 	format := parser.Selector("f", "format", []string{formatList, formatJson, formatCsv}, &argparse.Options{Help: "Output format.", Default: "list"})

@@ -6,7 +6,7 @@ usage: j2t [-h|--help] [-o|--output "<value>"] [-i|--input "<value>"]
            [-f|--format (list|json|csv)] [-P|--prefix "<value>"] [-H|--headers]
            [-m|--merge] [-n|--numeric]
 
-           Lists the fields in a JSON string
+           A simple utility to extract a structure from JSON
 
 Arguments:
 
