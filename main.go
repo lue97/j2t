@@ -27,10 +27,10 @@ func main() {
 	parser := argparse.NewParser("j2t", "Lists the fields in a JSON string")
 	outputFile := parser.String("o", "output", &argparse.Options{Help: "Sets the output file. Reads from STDIN by default"})
 	inputFile := parser.String("i", "input", &argparse.Options{Help: "Sets the input file. Writes to STDOUT by default"})
-	format := parser.Selector("f", "format", []string{formatList, formatJson, formatCsv}, &argparse.Options{Help: "Output format", Default: "list"})
+	format := parser.Selector("f", "format", []string{formatList, formatJson, formatCsv}, &argparse.Options{Help: "Output format.", Default: "list"})
 	prefix := parser.String("P", "prefix", &argparse.Options{Help: "Field prefix"})
-	requireHeader := parser.Flag("H", "headers", &argparse.Options{Help: "If headers should be printed. Only applicable for `list` and `csv` format"})
-	merge := parser.Flag("m", "merge", &argparse.Options{Help: "Merges type and content for fields with multiple types. Only applicable for `list` and `csv` format"})
+	requireHeader := parser.Flag("H", "headers", &argparse.Options{Help: "If headers should be printed"})
+	merge := parser.Flag("m", "merge", &argparse.Options{Help: "Merges type and content for fields with multiple types"})
 	categorizeNumeric := parser.Flag("n", "numeric", &argparse.Options{Help: "Categorize `number` into `number_int` and `number_float`"})
 	if err := parser.Parse(os.Args); err != nil {
 		fmt.Fprintf(os.Stderr, "%v", parser.Usage(err))
@@ -143,12 +143,18 @@ func writeCsv(w io.Writer, sortedKeys []string, maps map[string]typeMap, merge, 
 }
 
 func writeList(w io.Writer, sortedFields []string, maps map[string]typeMap, merge, requireHeaders bool) error {
-	fieldLen := len(headerField)
+	var fieldLen int
+	if requireHeaders {
+		fieldLen = len(headerField)
+	}
 	for _, field := range sortedFields {
 		fieldLen = max(fieldLen, len(field))
 	}
 	fieldLen++
-	typeLen := len(headerType)
+	var typeLen int
+	if requireHeaders {
+		typeLen = len(headerType)
+	}
 	for _, fieldMeta := range maps {
 		mergeLen := 0
 		for t, _ := range fieldMeta {
